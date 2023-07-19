@@ -8,6 +8,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -19,9 +21,14 @@ object AppModule {
     @Provides
     @Singleton
     fun providePaprikaApi(): NewsRetroApi {
+
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor)./*addInterceptor(HeaderInterceptor()).*/build()
+
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create()).client(client)
             .build()
             .create(NewsRetroApi::class.java)
     }

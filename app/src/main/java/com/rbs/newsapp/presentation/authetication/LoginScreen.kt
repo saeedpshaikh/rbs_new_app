@@ -25,11 +25,13 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.rbs.newsapp.Screen
 
 
 @Composable
-fun LoginScreen(/*navController: NavController*/) {
-
+fun LoginScreen(navController: NavController) {
 
         Box(modifier = Modifier
                 .fillMaxWidth()
@@ -62,7 +64,8 @@ fun LoginScreen(/*navController: NavController*/) {
                         gradientColors = gradientColor,
                         cornerRadius = 0.dp,
                         nameButton = "Login",
-                        roundedCornerShape = RoundedCornerShape(topStart = 0.dp,bottomEnd = 0.dp)
+                        roundedCornerShape = RoundedCornerShape(topStart = 0.dp,bottomEnd = 0.dp),
+                        navController= navController
                     )
 
                     Spacer(modifier = Modifier.padding(10.dp))
@@ -86,7 +89,8 @@ fun LoginScreen(/*navController: NavController*/) {
         gradientColors: List<Color>,
         cornerRadius: Dp,
         nameButton: String,
-        roundedCornerShape: RoundedCornerShape
+        roundedCornerShape: RoundedCornerShape,
+        navController: NavController
     ) {
 
         androidx.compose.material3.Button(
@@ -94,9 +98,15 @@ fun LoginScreen(/*navController: NavController*/) {
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp),
             onClick = {
+
+               // navController.
                 //your code
                 //mUsername
-                Log.d("======Login","9999")
+                //Log.d("======Login","9999")
+
+             //   NewsListViewModel
+                navController.navigate(Screen.NewsScreen.route)
+
 
             },
 

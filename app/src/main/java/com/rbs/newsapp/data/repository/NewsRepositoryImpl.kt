@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(private val api: NewsRetroApi) : NewsRepository {
     override suspend fun getNews(): NewModel{
-        return  api.getNews("!!",1,"rr")
+        return  api.getNews("tesla","2023-18-07")
     }
 
 }

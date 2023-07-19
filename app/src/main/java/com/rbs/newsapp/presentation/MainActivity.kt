@@ -15,9 +15,12 @@ import androidx.navigation.compose.rememberNavController
 import com.rbs.newsapp.BuildConfig
 import com.rbs.newsapp.Screen
 import com.rbs.newsapp.presentation.authetication.LoginScreen
+import com.rbs.newsapp.presentation.news_list.NewsListScreen
 import com.rbs.newsapp.ui.theme.NewsAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +57,16 @@ fun Navigation(){
             SplashScreen(navController)
         }
         composable("login_screen"){
-            LoginScreen()
+            LoginScreen(navController)
         }
+
+        composable("news_screen"){
+            NewsListScreen(navController)
+        }
+
+       /* composable("login_screen"){
+            LoginScreen(navController)
+        }*/
     }
 }
 
