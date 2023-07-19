@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.rbs.newsapp.presentation.news_detail.NewsDetailViewModel
+import com.rbs.newsapp.presentation.news_list.component.NewsListItem
 
 
 @Composable
@@ -24,16 +25,16 @@ fun NewsListScreen(
     navController: NavController,
     viewModel: NewsListViewModel = hiltViewModel()
 ) {
-    //val state = viewModel.state.value
-   /* Box(modifier = Modifier.fillMaxSize()) {
+    val state = viewModel.state.value
+    Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.coins) { coin ->
-               *//* CoinListItem(
-                    coin = coin,
+            items(state.article) { article ->
+                NewsListItem(
+                    article = article,
                     onItemClick = {
-                        navController.navigate(Screen.CoinDetailScreen.route + "/${coin.id}")
+                       // navController.navigate(Screen.CoinDetailScreen.route + "/${coin.id}")
                     }
-                )*//*
+                )
             }
         }
         if(state.error.isNotBlank()) {
@@ -49,6 +50,6 @@ fun NewsListScreen(
         }
         if(state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        }*/
+        }
     }
-//}
+}

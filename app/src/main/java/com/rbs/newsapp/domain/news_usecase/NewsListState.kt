@@ -1,7 +1,9 @@
 package com.rbs.newsapp.domain.news_usecase
 
+import com.rbs.newsapp.data.remote.dto.Article
+
 data class NewsListState(
     val isLoading: Boolean = false,
-    var news: Any? = null,
+    val article: List<Article> = emptyList(),
     val error: String = ""
 )

@@ -11,24 +11,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SplashViewModel(navController: NavController) : ViewModel() {
+class SplashViewModel : ViewModel() {
 
-    //private val mutableStateFlow = MutableStateFlow(true)
-    //val isLoading = mutableStateFlow.asStateFlow()
+    private val mutableStateFlow = MutableStateFlow(true)
 
-    /*init {
-//        viewModelScope.launch {
-//            delay(2000)
-//            mutableStateFlow.value = false
-//        }
-
-
-      //  LoginScreen()
-      //  navController.navigate(Screen.LoginScreen)
-
+    init {
+        viewModelScope.launch {
+            delay(100000)
+            mutableStateFlow.value = false
+        }
 
     }
-*/
 }
 
 

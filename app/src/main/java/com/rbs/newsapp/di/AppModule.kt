@@ -17,15 +17,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Provides
     @Singleton
     fun providePaprikaApi(): NewsRetroApi {
-
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor)./*addInterceptor(HeaderInterceptor()).*/build()
-
+        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor)
+            ./*addInterceptor(HeaderInterceptor()).*/build()
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()).client(client)
@@ -33,11 +31,9 @@ object AppModule {
             .create(NewsRetroApi::class.java)
     }
 
-
     @Provides
     @Singleton
     fun provideCoinRepository(api: NewsRetroApi): NewsRepository {
         return NewsRepositoryImpl(api)
     }
-
 }

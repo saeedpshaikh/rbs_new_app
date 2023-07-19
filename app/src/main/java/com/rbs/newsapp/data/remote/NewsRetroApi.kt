@@ -6,8 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NewsRetroApi {
-
-    //everything?q=tesla&from=2023-18-07&sortBy=publishedAt&apiKey=d6e6886d0f8c46f18793b5d35cd833f1
     @GET("/v2/everything")
     suspend fun getNews(
         @Query("q") data: String = "tesla",
@@ -15,6 +13,4 @@ interface NewsRetroApi {
         @Query("sortBy") sortBy: String = "publishedAt",
         @Query("apiKey") apiKey: String = API_KEY,
     ): NewModel
-
-// @Query("apiKey") apiKey: String = API_KEY
 }

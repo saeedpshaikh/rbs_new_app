@@ -7,8 +7,7 @@ import com.rbs.newsapp.domain.repository.NewsRepository
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(private val api: NewsRetroApi) : NewsRepository {
-    override suspend fun getNews(): NewModel{
-        return  api.getNews("tesla","2023-18-07")
+    override suspend fun getNews(): NewModel {
+        return api.getNews("tesla", "2023-18-07")
     }
-
 }

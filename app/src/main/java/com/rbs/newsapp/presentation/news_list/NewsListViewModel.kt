@@ -14,23 +14,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsListViewModel @Inject constructor(private val getNewsUseCase: GetNewsUseCase) : ViewModel() {
-
     private val _state = mutableStateOf(NewsListState())
     val state: State<NewsListState> = _state
-    //private lateinit var mealAndDiet: MealAndDietType
-
     init {
         getNews()
     }
-
-
-
 
     private fun getNews() {
         getNewsUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = NewsListState(news = result.data)
+                    _state.value = NewsListState(article = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
                     _state.value = NewsListState(

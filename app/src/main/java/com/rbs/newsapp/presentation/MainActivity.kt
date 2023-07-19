@@ -12,10 +12,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.rbs.newsapp.BuildConfig
 import com.rbs.newsapp.Screen
 import com.rbs.newsapp.presentation.authetication.LoginScreen
 import com.rbs.newsapp.presentation.news_list.NewsListScreen
+import com.rbs.newsapp.presentation.splash_mode.SplashScreen
 import com.rbs.newsapp.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,20 +59,8 @@ fun Navigation(){
         composable("login_screen"){
             LoginScreen(navController)
         }
-
         composable("news_screen"){
             NewsListScreen(navController)
         }
-
-       /* composable("login_screen"){
-            LoginScreen(navController)
-        }*/
     }
 }
-
-@Composable
-fun SplashScreen(navController: NavHostController) {
-    navController.navigate(Screen.LoginScreen.route)
-}
-
-

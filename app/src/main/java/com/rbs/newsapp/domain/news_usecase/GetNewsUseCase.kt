@@ -11,9 +11,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetNewsUseCase @Inject constructor(
-    private val repository: NewsRepository
-) {
+class GetNewsUseCase @Inject constructor(private val repository: NewsRepository) {
     operator fun invoke(): Flow<Resource<List<Article>>> = flow {
         try {
             val recipeInfo = repository.getNews()
