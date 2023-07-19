@@ -32,10 +32,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun getValueFor(){
-   val st= BuildConfig.API_URL
-
-}
 
 @Composable
 fun Greeting(name: String) {
