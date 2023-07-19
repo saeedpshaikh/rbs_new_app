@@ -44,7 +44,7 @@ import kotlin.time.Duration.Companion.seconds
 //@Preview(showBackground = true)
 @Composable
 fun SplashScreen(navController: NavController,viewModel: SplashViewModel = hiltViewModel()) {
-   /* Box(
+    /* Box(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
@@ -79,15 +79,19 @@ fun SplashScreen(navController: NavController,viewModel: SplashViewModel = hiltV
 
 
 
-    ConstraintLayout() {
-        val (box1,box2,box3) = createRefs()
+    ConstraintLayout(
+        modifier = Modifier.fillMaxSize()
+
+    ) {
+        val (boxGreen, boxRed, boxBlue, rowLayoutAppName, rowLayout) = createRefs()
         Box(modifier = Modifier
             .height(60.dp)
             .width(60.dp)
 
+
             //modifier = Modifier.align(Alignment.TopEnd).size(10.dp)
-            .constrainAs(box1){
-              //  top.linkTo(parent.top, margin = 16.dp)
+            .constrainAs(boxRed) {
+                //  top.linkTo(parent.top, margin = 16.dp)
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 start.linkTo(parent.start)
@@ -101,21 +105,69 @@ fun SplashScreen(navController: NavController,viewModel: SplashViewModel = hiltV
         Box(modifier = Modifier
             .height(60.dp)
             .width(60.dp)
-            .constrainAs(box2){
-                top.linkTo(box1.bottom)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(box1.end)
+            .constrainAs(boxGreen) {
+                bottom.linkTo(boxRed.top)
+                start.linkTo(boxRed.end)
             }
-            .background(color = Color.Red)
+            .background(color = Color.Green)
+        )
+
+        Box(modifier = Modifier
+            .height(60.dp)
+            .width(60.dp)
+            .constrainAs(boxBlue) {
+                top.linkTo(boxRed.bottom)
+                start.linkTo(boxGreen.end)
+            }
+            .background(color = Color.Blue)
         )
 
 
+        Text(text = "Application name",
+            fontSize = 22.sp,
+            modifier = Modifier
+                .constrainAs(rowLayoutAppName) {
+                    top.linkTo(boxBlue.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+        )
+
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .constrainAs(rowLayout) {
+                top.linkTo(rowLayoutAppName.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }, horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(60.dp)
+                    .width(60.dp)
+                    .background(color = Color.Black)
+            )
+
+            Box(
+                modifier = Modifier
+                    .height(60.dp)
+                    .width(60.dp)
+                    .background(color = Color.Blue)
+            )
+
+            Box(
+                modifier = Modifier
+                    .height(60.dp)
+                    .width(60.dp)
+                    .background(color = Color.Yellow)
+            )
+        }
     }
 
     LaunchedEffect(Unit) {
         delay(5.seconds)
-        navController.navigate(Screen.LoginScreen.route)
+        //navController.navigate(Screen.LoginScreen.route)
     }
 
 }
-

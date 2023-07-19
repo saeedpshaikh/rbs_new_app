@@ -1,7 +1,6 @@
 package com.rbs.newsapp.presentation.authetication
 
 import android.transition.*
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -28,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.rbs.newsapp.Screen
 import com.rbs.newsapp.ui.theme.BackGroundColor
@@ -42,10 +40,7 @@ fun LoginScreen(navController: NavController) {
         .fillMaxWidth()
         .fillMaxHeight()
         .padding(top = 180.dp, start = 10.dp, end = 10.dp, bottom = 60.dp)
-        .background(
-            color = BackGroundColor
-        )
-        ) {
+        .background(color = BackGroundColor)) {
 
         Row (Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -55,7 +50,6 @@ fun LoginScreen(navController: NavController) {
                 text = "ApplicationName",
                 modifier = Modifier.padding(top = 20.dp)
             )
-
         }
             Box(
                 modifier = Modifier.align(Alignment.CenterEnd),
@@ -118,14 +112,15 @@ fun LoginScreen(navController: NavController) {
                                 imeAction = ImeAction.Done,
                                 keyboardType = KeyboardType.Password
                             ),
-                            trailingIcon = {
+                            /*trailingIcon = {
                                 IconButton(onClick = { passwordHidden = !passwordHidden }) {
-                                    /*val visibilityIcon =
-                                        if (passwordHidden) Visibility else*/
+                                    *//*val visibilityIcon =
+                                        if (passwordHidden) Visibility else*//*
                                     val description =
                                         if (passwordHidden) "Show password" else "Hide password"
                                 }
-                            },
+                            },*/
+
                             modifier = Modifier.fillMaxWidth(0.8f),
                             keyboardActions = KeyboardActions(
                                 onDone = {
