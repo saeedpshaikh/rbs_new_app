@@ -11,4 +11,14 @@ val Deer = Color(0xFFFF5722)
 val Mango = Color(0xFFFF9800)
 val AppbarColor = Color(0xFF2196F3)
 val BackGroundColor = Color(0xFFEADE9B)
+val RedGroundColor = Color(0xffcc0000)
+val GreenGroundColor = Color(0xff669900)
+val OrangeGroundColor = Color(0xffff8800)
+val BlueGroundColor = Color(0xff0099cc)
+val AllGroundColor = Color(0xF1F5F9)
+val WhiteGroundColor = Color(0xF1F5F9)
+
+
+
+
 

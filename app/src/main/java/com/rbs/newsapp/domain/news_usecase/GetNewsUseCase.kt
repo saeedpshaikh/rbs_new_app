@@ -22,4 +22,7 @@ class GetNewsUseCase @Inject constructor(private val repository: NewsRepository)
             emit(Resource.Error<List<Article>>("Couldn't reach server. Check your internet connection."))
         }
     }
+
+   // suspend fun upsert(article: Article) = db.getArticleDao().upsert(article)
+
 }

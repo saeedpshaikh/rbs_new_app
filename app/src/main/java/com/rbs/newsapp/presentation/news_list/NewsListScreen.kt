@@ -10,29 +10,49 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.rbs.newsapp.presentation.news_detail.NewsDetailViewModel
+import com.google.gson.Gson
+import com.rbs.newsapp.Screen
+import com.rbs.newsapp.common.Datastore
+import com.rbs.newsapp.data.remote.dto.Article
 import com.rbs.newsapp.presentation.news_list.component.NewsListItem
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun NewsListScreen(
     navController: NavController,
+    dataStore:Datastore,
     viewModel: NewsListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    val coroutineScope = rememberCoroutineScope()
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.article) { article ->
                 NewsListItem(
                     article = article,
                     onItemClick = {
-                       // navController.navigate(Screen.CoinDetailScreen.route + "/${coin.id}")
+                        var jsonData = article.toString()
+
+
+                        viewModel.setArticle(article)
+                         navController.navigate(Screen.NewDetailScreen.route + "/${"id"}")
+
+                        /*coroutineScope.launch {
+                            dataStore.storeNewsData(jsonData)
+                            val gson = Gson()
+                            var myObjectString = gson.toJson(article, Article::class.java)
+                            //navController.navigate("details/$myObjectString")
+                           // navController.navigate(Screen.NewDetailScreen.route + "/${myObjectString.toString()}")
+                        }*/
                     }
                 )
             }
@@ -52,4 +72,6 @@ fun NewsListScreen(
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
+
+
 }

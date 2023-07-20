@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,19 +28,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.rbs.newsapp.R
 import com.rbs.newsapp.Screen
 import com.rbs.newsapp.ui.theme.BackGroundColor
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController,
+                loginViewModel : LoginViewModel = hiltViewModel() ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+
     Box(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()
-        .padding(top = 180.dp, start = 10.dp, end = 10.dp, bottom = 60.dp)
+        .padding(top = 180.dp, start = 20.dp, end = 20.dp, bottom = 60.dp)
         .background(color = BackGroundColor)) {
 
         Row (Modifier.fillMaxWidth(),
@@ -48,6 +53,7 @@ fun LoginScreen(navController: NavController) {
             Text(
                 textAlign = TextAlign.Center,
                 text = "ApplicationName",
+                fontSize = 22.sp,
                 modifier = Modifier.padding(top = 20.dp)
             )
         }
@@ -65,12 +71,20 @@ fun LoginScreen(navController: NavController) {
 
                     val mUsername = remember { mutableStateOf("") }
                     val mPassword = remember { mutableStateOf("") }
-                    Spacer(modifier = Modifier.height(150.dp))
+                    Spacer(modifier = Modifier.height(100.dp))
                    // SimpleOutlinedTextFieldSample()
                     var text by rememberSaveable { mutableStateOf("") }
-                    Text(
-                        text = "Username",
-                    )
+                    Box(modifier = Modifier.
+                        padding(start = 40.dp)
+                        .align(Alignment.Start)
+                        .width(500.dp))
+                    {
+                        Text(
+                            textAlign = TextAlign.Start,
+                            text = "Username"
+                        )
+                    }
+
                     Spacer(modifier = Modifier.padding(3.dp))
                     Box(
                         Modifier.background(color = Color.White)
@@ -79,7 +93,6 @@ fun LoginScreen(navController: NavController) {
                     OutlinedTextField(
                         value = text,
                         onValueChange = { text = it },
-                        placeholder = { Text(text = "Name or Email Address") },
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Next,
                             keyboardType = KeyboardType.Email
@@ -94,11 +107,20 @@ fun LoginScreen(navController: NavController) {
 
                     )
                     }
-                    Spacer(modifier = Modifier.padding(3.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
                     var password by rememberSaveable { mutableStateOf("") }
                     var passwordHidden by rememberSaveable { mutableStateOf(true) }
 
-                    Text(text = "Password")
+                    Box(modifier = Modifier.
+                    padding(start = 40.dp)
+                        .align(Alignment.Start)
+                        .width(500.dp))
+                    {
+                        Text(
+                            textAlign = TextAlign.Start,
+                            text = "Password"
+                        )
+                    }
                     Box( Modifier.background(
                         color = Color.White
                     )) {
@@ -112,14 +134,16 @@ fun LoginScreen(navController: NavController) {
                                 imeAction = ImeAction.Done,
                                 keyboardType = KeyboardType.Password
                             ),
-                            /*trailingIcon = {
+                            trailingIcon = {
                                 IconButton(onClick = { passwordHidden = !passwordHidden }) {
-                                    *//*val visibilityIcon =
-                                        if (passwordHidden) Visibility else*//*
-                                    val description =
-                                        if (passwordHidden) "Show password" else "Hide password"
+                                    val iconImage = if (passwordHidden) R.drawable.ic_launcher_background else R.drawable.ic_launcher_foreground
+                                    Icon(
+                                        painter = painterResource(id = iconImage),
+                                        contentDescription = "Trailing Icon",
+                                        tint = Color.Gray
+                                    )
                                 }
-                            },*/
+                            },
 
                             modifier = Modifier.fillMaxWidth(0.8f),
                             keyboardActions = KeyboardActions(
@@ -132,13 +156,15 @@ fun LoginScreen(navController: NavController) {
 
                     //SimpleOutlinedPasswordTextField()
                     val gradientColor = listOf(Color(0xffDE1313), Color(0xffDE1313))
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(20.dp))
                     GradientButton(
                         gradientColors = gradientColor,
                         cornerRadius = 0.dp,
                         nameButton = "Login",
                         roundedCornerShape = RoundedCornerShape(topStart = 0.dp,bottomEnd = 0.dp),
-                        navController= navController
+                        navController= navController,
+                        LoginViewModel = loginViewModel
+
                     )
                     Spacer(modifier = Modifier.padding(20.dp))
                 }
@@ -155,13 +181,16 @@ fun LoginScreen(navController: NavController) {
         cornerRadius: Dp,
         nameButton: String,
         roundedCornerShape: RoundedCornerShape,
-        navController: NavController
+        navController: NavController,
+        LoginViewModel: LoginViewModel
     ) {
         androidx.compose.material3.Button(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp),
             onClick = {
+
+               // LoginViewModel.isValidEmail(mUsername)
                 navController.navigate(Screen.NewsScreen.route)
             },
             contentPadding = PaddingValues(),

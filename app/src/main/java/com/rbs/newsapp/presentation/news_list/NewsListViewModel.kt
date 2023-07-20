@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rbs.newsapp.common.Resource
+import com.rbs.newsapp.data.remote.dto.Article
 import com.rbs.newsapp.domain.news_usecase.GetNewsUseCase
 import com.rbs.newsapp.domain.news_usecase.NewsListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,10 @@ import javax.inject.Inject
 class NewsListViewModel @Inject constructor(private val getNewsUseCase: GetNewsUseCase) : ViewModel() {
     private val _state = mutableStateOf(NewsListState())
     val state: State<NewsListState> = _state
+       private var article = mutableStateOf(Article())
+
+
+
     init {
         getNews()
     }
@@ -37,4 +42,17 @@ class NewsListViewModel @Inject constructor(private val getNewsUseCase: GetNewsU
             }
         }.launchIn(viewModelScope)
     }
+
+
+  /*  fun saveArticle(article: Article) = viewModelScope.launch {
+        newsRepository.upsert(article)
+    }*/
+
+
+
+    fun setArticle(article: Article) {
+        this.article.value= article
+
+    }
+    fun getArticle() = article
 }

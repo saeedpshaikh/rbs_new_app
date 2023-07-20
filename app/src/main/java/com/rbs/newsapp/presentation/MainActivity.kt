@@ -8,12 +8,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.rbs.newsapp.Screen
+import com.rbs.newsapp.common.Datastore
 import com.rbs.newsapp.presentation.authetication.LoginScreen
+import com.rbs.newsapp.presentation.news_detail.NewsDetailScreen
 import com.rbs.newsapp.presentation.news_list.NewsListScreen
 import com.rbs.newsapp.presentation.splash_mode.SplashScreen
 import com.rbs.newsapp.ui.theme.NewsAppTheme
@@ -23,11 +24,18 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
+    lateinit var dataStore: Datastore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
-            Navigation()
+            dataStore = Datastore(this)
+            // ArticleDatabase(this)
+            Navigation(dataStore)
+
+            //val newsRepository = NewsRepository(ArticleDatabase(this))
+
         }
     }
     override fun onBackPressed() {
@@ -50,17 +58,25 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun Navigation(){
+fun Navigation(dataStore: Datastore) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
         composable(route= Screen.SplashScreen.route){
             SplashScreen(navController)
         }
         composable("login_screen"){
+
             LoginScreen(navController)
         }
         composable("news_screen"){
-            NewsListScreen(navController)
+            NewsListScreen(navController, dataStore)
         }
+
+        composable(
+            route = Screen.NewDetailScreen.route + "/{new}"
+        ) {
+            NewsDetailScreen(navController, dataStore)
+        }
+
     }
 }
