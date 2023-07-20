@@ -1,9 +1,9 @@
 package com.rbs.newsapp.presentation.news_list
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import android.annotation.SuppressLint
+import android.net.Uri
+import android.os.Bundle
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
@@ -21,57 +21,61 @@ import com.google.gson.Gson
 import com.rbs.newsapp.Screen
 import com.rbs.newsapp.common.Datastore
 import com.rbs.newsapp.data.remote.dto.Article
+import com.rbs.newsapp.presentation.news_detail.NewsDetailScreen
+import com.rbs.newsapp.presentation.news_list.component.AppBarUI
 import com.rbs.newsapp.presentation.news_list.component.NewsListItem
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun NewsListScreen(
     navController: NavController,
-    dataStore:Datastore,
-    viewModel: NewsListViewModel = hiltViewModel()
+    dataStore: Datastore,
+    viewModel: NewsListViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
     val coroutineScope = rememberCoroutineScope()
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.article) { article ->
-                NewsListItem(
-                    article = article,
-                    onItemClick = {
-                        var jsonData = article.toString()
+    var name:String? =""
 
-
-                        viewModel.setArticle(article)
-                         navController.navigate(Screen.NewDetailScreen.route + "/${"id"}")
-
-                        /*coroutineScope.launch {
-                            dataStore.storeNewsData(jsonData)
-                            val gson = Gson()
-                            var myObjectString = gson.toJson(article, Article::class.java)
-                            //navController.navigate("details/$myObjectString")
-                           // navController.navigate(Screen.NewDetailScreen.route + "/${myObjectString.toString()}")
-                        }*/
-                    }
-                )
-            }
-        }
-        if(state.error.isNotBlank()) {
-            Text(
-                text = state.error,
-                color = MaterialTheme.colors.error,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .align(Alignment.Center)
-            )
-        }
-        if(state.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        }
+    coroutineScope.launch {
+         name = dataStore.nameFlow.toString()
     }
 
+    Column() {
 
+        name?.let { AppBarUI(it) }
+        Box(modifier = Modifier.fillMaxSize()) {
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(state.article) { article ->
+                    NewsListItem(
+                        article = article,
+                        onItemClick = {
+                            navController.currentBackStackEntry?.savedStateHandle?.set(
+                                key = "person",
+                                value = article
+                            )
+                            navController.navigate(Screen.NewDetailScreen.route)
+                        }
+                    )
+                }
+            }
+            if (state.error.isNotBlank()) {
+                Text(
+                    text = state.error,
+                    color = MaterialTheme.colors.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            if (state.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        }
+    }
 }

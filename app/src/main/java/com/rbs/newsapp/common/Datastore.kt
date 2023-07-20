@@ -12,21 +12,16 @@ import java.io.IOException
 import java.util.prefs.Preferences
 
 class Datastore (context: Context) {
-
     private val dataStore = context.createDataStore(name = "user_prefs")
-
     companion object {
-        val JSON_KEY = preferencesKey<String>("JASON_DATA")
+        val NAME_KEY = preferencesKey<String>("NAME_DATA")
     }
-
-
-    suspend fun storeNewsData( jsonData: String) {
+    suspend fun storeNewsData( name: String) {
         dataStore.edit {
-            it[JSON_KEY] = jsonData
+            it[NAME_KEY] = name
         }
     }
-
-    val jsonNameFlow: Flow<String> = dataStore.data.map {
-        it[JSON_KEY] ?: ""
+    val nameFlow: Flow<String> = dataStore.data.map {
+        it[NAME_KEY] ?: ""
     }
 }

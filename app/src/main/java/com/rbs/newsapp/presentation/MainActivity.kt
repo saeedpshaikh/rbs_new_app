@@ -7,12 +7,12 @@ import androidx.activity.viewModels
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.rbs.newsapp.Screen
 import com.rbs.newsapp.common.Datastore
+import com.rbs.newsapp.data.remote.dto.Article
 import com.rbs.newsapp.presentation.authetication.LoginScreen
 import com.rbs.newsapp.presentation.news_detail.NewsDetailScreen
 import com.rbs.newsapp.presentation.news_list.NewsListScreen
@@ -27,23 +27,16 @@ class MainActivity : ComponentActivity() {
     lateinit var dataStore: Datastore
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             dataStore = Datastore(this)
-            // ArticleDatabase(this)
             Navigation(dataStore)
-
-            //val newsRepository = NewsRepository(ArticleDatabase(this))
-
         }
     }
     override fun onBackPressed() {
         super.onBackPressed()
     }
 }
-
-
 @Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!")
@@ -61,22 +54,19 @@ fun DefaultPreview() {
 fun Navigation(dataStore: Datastore) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
-        composable(route= Screen.SplashScreen.route){
+        composable(route = Screen.SplashScreen.route) {
             SplashScreen(navController)
         }
-        composable("login_screen"){
-
-            LoginScreen(navController)
+        composable("login_screen") {
+            LoginScreen(navController,dataStore)
         }
-        composable("news_screen"){
+        composable("news_screen") {
             NewsListScreen(navController, dataStore)
         }
-
-        composable(
-            route = Screen.NewDetailScreen.route + "/{new}"
-        ) {
+        composable("news_detail_screen") {
+            val result =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Article>("person")
             NewsDetailScreen(navController, dataStore)
         }
-
     }
 }
