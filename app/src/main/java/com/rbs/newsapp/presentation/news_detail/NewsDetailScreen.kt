@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -17,19 +17,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.rbs.newsapp.R
+import com.rbs.newsapp.common.Constants.Companion.PARAM_ARTICLE_DATA
 import com.rbs.newsapp.common.Datastore
 import com.rbs.newsapp.data.remote.dto.Article
 import com.rbs.newsapp.presentation.news_list.NewsListViewModel
 import com.rbs.newsapp.presentation.news_list.component.AppBarUI
-import com.rbs.newsapp.presentation.news_list.component.testComposable
 import com.rbs.newsapp.ui.theme.AllGroundColor
-import com.rbs.newsapp.ui.theme.RedGroundColor
-import kotlinx.coroutines.NonDisposableHandle.parent
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -38,11 +37,17 @@ fun NewsDetailScreen(
     datastore: Datastore,
     viewModel: NewsListViewModel = hiltViewModel()
 ) {
-    val article = navController.previousBackStackEntry?.savedStateHandle?.get<Article>("person")
+    val coroutineScope = rememberCoroutineScope()
+    var name: String? = ""
+    coroutineScope.launch {
+        name = datastore.nameFlow.toString()
+        name = datastore.nameFlow.collect().toString()
+    }
+    val article = navController.previousBackStackEntry?.savedStateHandle?.get<Article>(PARAM_ARTICLE_DATA)
 
     Column(modifier = Modifier
         .fillMaxWidth()
-        .background(color= AllGroundColor)
+        .background(color = AllGroundColor)
         .padding(20.dp)) {
         Column(
             modifier = Modifier
@@ -51,7 +56,7 @@ fun NewsDetailScreen(
 
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            AppBarUI("name")
+            name?.let { AppBarUI(it) }
             Image(
                 painter = rememberAsyncImagePainter(article?.urlToImage),
                 contentDescription = null,
@@ -94,11 +99,8 @@ fun NewsDetailScreen(
                         fontSize = 13.sp,
                         overflow = TextOverflow.Ellipsis
                     )
-
-
                 }
             }
-
 
             Text(
                 text = "${article?.description})",
@@ -118,13 +120,7 @@ fun NewsDetailScreen(
                 maxLines = 9,
                 overflow = TextOverflow.Ellipsis
             )
-
-            //article?.let { testComposable(it) }
-
-
-
         }
-
 
     }
 }

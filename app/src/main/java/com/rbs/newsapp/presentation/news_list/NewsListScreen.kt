@@ -3,6 +3,7 @@ package com.rbs.newsapp.presentation.news_list
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,12 +20,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.gson.Gson
 import com.rbs.newsapp.Screen
+import com.rbs.newsapp.common.Constants.Companion.PARAM_ARTICLE_DATA
 import com.rbs.newsapp.common.Datastore
 import com.rbs.newsapp.data.remote.dto.Article
 import com.rbs.newsapp.presentation.news_detail.NewsDetailScreen
 import com.rbs.newsapp.presentation.news_list.component.AppBarUI
 import com.rbs.newsapp.presentation.news_list.component.NewsListItem
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -41,6 +44,7 @@ fun NewsListScreen(
 
     coroutineScope.launch {
          name = dataStore.nameFlow.toString()
+        name= dataStore.nameFlow.collect().toString()
     }
 
     Column() {
@@ -54,7 +58,7 @@ fun NewsListScreen(
                         article = article,
                         onItemClick = {
                             navController.currentBackStackEntry?.savedStateHandle?.set(
-                                key = "person",
+                                key = PARAM_ARTICLE_DATA,
                                 value = article
                             )
                             navController.navigate(Screen.NewDetailScreen.route)

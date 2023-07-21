@@ -237,7 +237,7 @@ private fun GradientButton(
                 }
                 navController.navigate(Screen.NewsScreen.route)
             }
-            navController.navigate(Screen.NewsScreen.route)
+            //navController.navigate(Screen.NewsScreen.route)
         },
         contentPadding = PaddingValues(),
         shape = RoundedCornerShape(cornerRadius)

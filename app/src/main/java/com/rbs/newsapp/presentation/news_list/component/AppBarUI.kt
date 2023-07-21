@@ -22,7 +22,7 @@ fun AppBarUI(nameString: String) {
             .height(60.dp)
     ) {
         Text(
-            text = nameString,
+            text = "Welcome $nameString",
             modifier = Modifier
                 .padding(10.dp)
                 .align(Start)

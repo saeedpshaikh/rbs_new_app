@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.rbs.newsapp.Screen
+import com.rbs.newsapp.common.Constants.Companion.PARAM_ARTICLE_DATA
 import com.rbs.newsapp.common.Datastore
 import com.rbs.newsapp.data.remote.dto.Article
 import com.rbs.newsapp.presentation.authetication.LoginScreen
@@ -19,7 +20,6 @@ import com.rbs.newsapp.presentation.news_list.NewsListScreen
 import com.rbs.newsapp.presentation.splash_mode.SplashScreen
 import com.rbs.newsapp.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -64,9 +64,9 @@ fun Navigation(dataStore: Datastore) {
             NewsListScreen(navController, dataStore)
         }
         composable("news_detail_screen") {
-            val result =
-                navController.previousBackStackEntry?.savedStateHandle?.get<Article>("person")
+            val result = navController.previousBackStackEntry?.savedStateHandle?.get<Article>(PARAM_ARTICLE_DATA)
             NewsDetailScreen(navController, dataStore)
         }
     }
 }
+
