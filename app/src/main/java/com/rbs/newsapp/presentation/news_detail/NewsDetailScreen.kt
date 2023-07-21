@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,8 +27,6 @@ import com.rbs.newsapp.data.remote.dto.Article
 import com.rbs.newsapp.presentation.news_list.NewsListViewModel
 import com.rbs.newsapp.presentation.news_list.component.AppBarUI
 import com.rbs.newsapp.ui.theme.AllGroundColor
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -37,12 +35,9 @@ fun NewsDetailScreen(
     datastore: Datastore,
     viewModel: NewsListViewModel = hiltViewModel()
 ) {
-    val coroutineScope = rememberCoroutineScope()
     var name: String? = ""
-    coroutineScope.launch {
-        name = datastore.nameFlow.toString()
-        name = datastore.nameFlow.collect().toString()
-    }
+    name = datastore.nameFlow.collectAsState(initial = "").value
+
     val article = navController.previousBackStackEntry?.savedStateHandle?.get<Article>(PARAM_ARTICLE_DATA)
 
     Column(modifier = Modifier
@@ -123,4 +118,7 @@ fun NewsDetailScreen(
         }
 
     }
+
 }
+
+

@@ -1,9 +1,6 @@
 package com.rbs.newsapp.presentation.news_list
 
 import android.annotation.SuppressLint
-import android.net.Uri
-import android.os.Bundle
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,6 +8,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,15 +16,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.google.gson.Gson
 import com.rbs.newsapp.Screen
 import com.rbs.newsapp.common.Constants.Companion.PARAM_ARTICLE_DATA
 import com.rbs.newsapp.common.Datastore
-import com.rbs.newsapp.data.remote.dto.Article
-import com.rbs.newsapp.presentation.news_detail.NewsDetailScreen
 import com.rbs.newsapp.presentation.news_list.component.AppBarUI
 import com.rbs.newsapp.presentation.news_list.component.NewsListItem
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -46,6 +40,9 @@ fun NewsListScreen(
          name = dataStore.nameFlow.toString()
         name= dataStore.nameFlow.collect().toString()
     }
+
+     name = dataStore.nameFlow.collectAsState(initial = "").value
+
 
     Column() {
 
