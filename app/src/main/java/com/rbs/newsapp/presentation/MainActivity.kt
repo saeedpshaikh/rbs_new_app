@@ -54,6 +54,7 @@ fun DefaultPreview() {
 fun Navigation(dataStore: Datastore) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
+
         composable(route = Screen.SplashScreen.route) {
             SplashScreen(navController)
         }

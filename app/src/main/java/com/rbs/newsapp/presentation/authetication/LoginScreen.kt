@@ -37,6 +37,7 @@ import com.rbs.newsapp.common.Datastore
 import com.rbs.newsapp.ui.theme.BackGroundColor
 import com.rbs.newsapp.ui.theme.RedGroundColor
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -234,7 +235,11 @@ private fun GradientButton(
                 changeTopFlag(false)
                 coroutineScope.launch {
                     dataStore.storeNewsData(textUserT)
+                    delay(10)
                 }
+
+                //coroutineScope
+
                 navController.navigate(Screen.NewsScreen.route)
             }
             //navController.navigate(Screen.NewsScreen.route)

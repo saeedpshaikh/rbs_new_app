@@ -56,8 +56,6 @@ fun NewsListItem(article: Article, onItemClick: (Article) -> Unit) {
 
         }
 
-
-
     }
 
 

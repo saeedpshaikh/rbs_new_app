@@ -116,9 +116,7 @@ fun NewsDetailScreen(
                 overflow = TextOverflow.Ellipsis
             )
         }
-
     }
-
 }
 
 

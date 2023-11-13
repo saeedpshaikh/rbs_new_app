@@ -15,6 +15,7 @@ class GetNewsUseCase @Inject constructor(private val repository: NewsRepository)
     operator fun invoke(): Flow<Resource<List<Article>>> = flow {
         try {
             val recipeInfo = repository.getNews()
+
             emit(Resource.Success<List<Article>>(recipeInfo.articles))
         } catch(e: HttpException) {
             emit(Resource.Error<List<Article>>(e.localizedMessage ?: "An unexpected error occured"))
